@@ -19,6 +19,12 @@ public class AuthController {
         Long id = userService.doGoogleLogin(code);
         System.out.println(id);
     }
+
+    @GetMapping("/kakao/callback")
+    public void kakaoLogin(@RequestParam("code") String code) {
+        Long id = userService.doKakaoLogin(code);
+        System.out.println(id);
+    }
 }
 
 

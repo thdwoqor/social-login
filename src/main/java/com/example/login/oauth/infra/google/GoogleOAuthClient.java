@@ -3,9 +3,9 @@ package com.example.login.oauth.infra.google;
 import com.example.login.oauth.domain.client.OAuthClient;
 import com.example.login.oauth.infra.dto.OAuthUserInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
-@Service
+@Component
 @RequiredArgsConstructor
 public class GoogleOAuthClient implements OAuthClient {
 

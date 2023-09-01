@@ -11,4 +11,5 @@ public class KakaoOauthConfig {
     private String redirectUri;
     private String grantType;
     private String providerName;
+    private String scope;
 }

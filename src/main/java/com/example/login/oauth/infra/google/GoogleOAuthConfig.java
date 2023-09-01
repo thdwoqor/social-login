@@ -12,4 +12,5 @@ public class GoogleOAuthConfig {
     private String redirectUri;
     private String grantType;
     private String providerName;
+    private String scope;
 }

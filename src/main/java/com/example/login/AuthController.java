@@ -1,8 +1,8 @@
-package com.example.login.auth;
+package com.example.login;
 
-import com.example.login.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,15 +14,12 @@ public class AuthController {
 
     private final UserService userService;
 
-    @GetMapping("/google/callback")
-    public void googleLogin(@RequestParam("code") String code) {
-        Long id = userService.doGoogleLogin(code);
-        System.out.println(id);
-    }
-
-    @GetMapping("/kakao/callback")
-    public void kakaoLogin(@RequestParam("code") String code) {
-        Long id = userService.doKakaoLogin(code);
+    @GetMapping("/{providerName}/callback")
+    public void googleLogin(
+            @RequestParam("code") String code,
+            @PathVariable("providerName") String providerName
+    ) {
+        String id = userService.doSocialLogin(code, providerName);
         System.out.println(id);
     }
 }

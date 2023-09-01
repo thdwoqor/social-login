@@ -1,17 +1,16 @@
-package com.example.login;
+package com.example.login.auth.service;
 
+import com.example.login.SocialUser;
 import com.example.login.auth.kakao.KakaoAccessTokenRequest;
-import com.example.login.auth.kakao.KakaoAccessTokenResponse;
-import com.example.login.auth.kakao.KakaoTokenApi;
+import com.example.login.auth.kakao.KakaoAccessTokenApi;
 import com.example.login.auth.kakao.KakaoUserInfoApi;
-import com.example.login.auth.kakao.KakaoUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class KakaoLoginServiceImpl {
+public class KakaoAuthService implements SocialAuthService {
 
     @Value("${spring.auth.kakao.clientId}")
     private String clientId;
@@ -20,10 +19,16 @@ public class KakaoLoginServiceImpl {
     @Value("${spring.auth.kakao.grantType}")
     private String grantType;
 
-    private final KakaoTokenApi kakaoTokenApi;
+    private final KakaoAccessTokenApi kakaoAccessTokenApi;
     private final KakaoUserInfoApi kakaoUserInfoApi;
 
-    public KakaoAccessTokenResponse getAccessToken(String code) {
+    @Override
+    public boolean supports(final String providerName) {
+        return Provider.KAKAO==Provider.from(providerName);
+    }
+
+    @Override
+    public String getAccessToken(String code) {
         KakaoAccessTokenRequest request = KakaoAccessTokenRequest.builder()
                 .clientId(clientId)
                 .redirectUri(redirectUri)
@@ -31,10 +36,11 @@ public class KakaoLoginServiceImpl {
                 .code(code)
                 .build();
 
-        return kakaoTokenApi.getKakaoToken(request);
+        return kakaoAccessTokenApi.getKakaoToken(request).getAccessToken();
     }
 
-    public KakaoUserInfoResponse getUserInfo(String accessToken) {
-        return kakaoUserInfoApi.getUserInfo("Bearer " + accessToken);
+    @Override
+    public SocialUser getUserInfo(String accessToken) {
+        return kakaoUserInfoApi.getUserInfo("Bearer " + accessToken).toSocialUser();
     }
 }

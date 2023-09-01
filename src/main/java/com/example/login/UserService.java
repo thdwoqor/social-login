@@ -1,9 +1,7 @@
 package com.example.login;
 
-import com.example.login.auth.google.GoogleAccessTokenResponse;
-import com.example.login.auth.google.GoogleUserInfoResponse;
-import com.example.login.auth.kakao.KakaoAccessTokenResponse;
-import com.example.login.auth.kakao.KakaoUserInfoResponse;
+import com.example.login.auth.service.SocialAuthService;
+import com.example.login.auth.service.SocialAuthServices;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,33 +10,21 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserService {
 
-    private final GoogleLoginServiceImpl googleLoginServiceImpl;
-    private final KakaoLoginServiceImpl kakaoLoginService;
+    private final SocialAuthServices socialAuthServices;
     private final SocialUserRepository socialUserRepository;
 
-    public String doGoogleLogin(String code) {
-        GoogleAccessTokenResponse response = googleLoginServiceImpl.getAccessToken(code);
-        GoogleUserInfoResponse userInfo = googleLoginServiceImpl.getUserInfo(response.getAccessToken());
+    public String doSocialLogin(String code,String provider){
+        SocialAuthService socialAuthService = socialAuthServices.getSocialAuthService(provider);
 
-        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(userInfo.getId());
+        String accessToken = socialAuthService.getAccessToken(code);
+        SocialUser socialUser = socialAuthService.getUserInfo(accessToken);
 
-        if (findSocialUser.isEmpty()) {
-            socialUserRepository.save(userInfo.toSocialUser());
-        }
-
-        return userInfo.toSocialUser().getProvideId();
-    }
-
-    public String doKakaoLogin(String code) {
-        KakaoAccessTokenResponse accessToken = kakaoLoginService.getAccessToken(code);
-        KakaoUserInfoResponse userInfo = kakaoLoginService.getUserInfo(accessToken.getAccessToken());
-
-        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(userInfo.getId());
+        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(socialUser.getProvideId());
 
         if (findSocialUser.isEmpty()) {
-            socialUserRepository.save(userInfo.toSocialUser());
+            socialUserRepository.save(socialUser);
         }
 
-        return userInfo.toSocialUser().getProvideId();
+        return socialUser.getProvideId();
     }
 }

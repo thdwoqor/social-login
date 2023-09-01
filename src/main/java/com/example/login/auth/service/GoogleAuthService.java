@@ -1,17 +1,16 @@
-package com.example.login;
+package com.example.login.auth.service;
 
+import com.example.login.SocialUser;
 import com.example.login.auth.google.GoogleAccessTokenRequest;
-import com.example.login.auth.google.GoogleAccessTokenResponse;
-import com.example.login.auth.google.GoogleTokenApi;
+import com.example.login.auth.google.GoogleAccessTokenApi;
 import com.example.login.auth.google.GoogleUserApi;
-import com.example.login.auth.google.GoogleUserInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleLoginServiceImpl {
+public class GoogleAuthService implements SocialAuthService {
 
     @Value("${spring.auth.google.clientId}")
     private String clientId;
@@ -22,10 +21,16 @@ public class GoogleLoginServiceImpl {
     @Value("${spring.auth.google.grantType}")
     private String grantType;
 
-    private final GoogleTokenApi googleTokenApi;
+    private final GoogleAccessTokenApi googleAccessTokenApi;
     private final GoogleUserApi googleUserApi;
 
-    public GoogleAccessTokenResponse getAccessToken(String code) {
+    @Override
+    public boolean supports(final String providerName) {
+        return Provider.GOOGLE==Provider.from(providerName);
+    }
+
+    @Override
+    public String getAccessToken(String code) {
         GoogleAccessTokenRequest request = GoogleAccessTokenRequest.builder()
                 .redirectUri(redirectUri)
                 .clientId(clientId)
@@ -33,10 +38,11 @@ public class GoogleLoginServiceImpl {
                 .grantType(grantType)
                 .code(code).build();
 
-        return googleTokenApi.getGoogleToken(request);
+        return googleAccessTokenApi.getGoogleToken(request).getAccessToken();
     }
 
-    public GoogleUserInfoResponse getUserInfo(String accessToken) {
-        return googleUserApi.getUserInfo(accessToken);
+    @Override
+    public SocialUser getUserInfo(String accessToken) {
+        return googleUserApi.getUserInfo(accessToken).toSocialUser();
     }
 }

@@ -5,5 +5,5 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface SocialUserRepository extends JpaRepository<SocialUser, Long> {
 
-    Optional<SocialUser> findByProvideId(Long provideId);
+    Optional<SocialUser> findByProvideId(String provideId);
 }

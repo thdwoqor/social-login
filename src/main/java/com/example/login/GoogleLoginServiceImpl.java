@@ -27,10 +27,10 @@ public class GoogleLoginServiceImpl {
 
     public GoogleAccessTokenResponse getAccessToken(String code) {
         GoogleAccessTokenRequest request = GoogleAccessTokenRequest.builder()
-                .redirect_uri(redirectUri)
-                .client_id(clientId)
-                .client_secret(clientSecret)
-                .grant_type(grantType)
+                .redirectUri(redirectUri)
+                .clientId(clientId)
+                .clientSecret(clientSecret)
+                .grantType(grantType)
                 .code(code).build();
 
         return googleTokenApi.getGoogleToken(request);

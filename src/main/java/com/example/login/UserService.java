@@ -16,11 +16,11 @@ public class UserService {
     private final KakaoLoginServiceImpl kakaoLoginService;
     private final SocialUserRepository socialUserRepository;
 
-    public Long doGoogleLogin(String code) {
+    public String doGoogleLogin(String code) {
         GoogleAccessTokenResponse response = googleLoginServiceImpl.getAccessToken(code);
-        GoogleUserInfoResponse userInfo = googleLoginServiceImpl.getUserInfo(response.getAccess_token());
+        GoogleUserInfoResponse userInfo = googleLoginServiceImpl.getUserInfo(response.getAccessToken());
 
-        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(Long.valueOf(userInfo.getId()));
+        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(userInfo.getId());
 
         if (findSocialUser.isEmpty()) {
             socialUserRepository.save(userInfo.toSocialUser());
@@ -29,11 +29,11 @@ public class UserService {
         return userInfo.toSocialUser().getProvideId();
     }
 
-    public Long doKakaoLogin(String code) {
+    public String doKakaoLogin(String code) {
         KakaoAccessTokenResponse accessToken = kakaoLoginService.getAccessToken(code);
-        KakaoUserInfoResponse userInfo = kakaoLoginService.getUserInfo(accessToken.getAccess_token());
+        KakaoUserInfoResponse userInfo = kakaoLoginService.getUserInfo(accessToken.getAccessToken());
 
-        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(Long.valueOf(userInfo.getId()));
+        Optional<SocialUser> findSocialUser = socialUserRepository.findByProvideId(userInfo.getId());
 
         if (findSocialUser.isEmpty()) {
             socialUserRepository.save(userInfo.toSocialUser());

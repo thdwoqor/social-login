@@ -1,12 +1,18 @@
 package com.example.login.auth.google;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
 @Data
 public class GoogleAccessTokenResponse {
-    String access_token;
-    Integer expires_in;
+
+    @JsonProperty("access_token")
+    String accessToken;
+    @JsonProperty("expires_in")
+    Integer expiresIn;
     String scope;
-    String token_type;
-    String id_token;
+    @JsonProperty("token_type")
+    String tokenType;
+    @JsonProperty("id_token")
+    String idToken;
 }

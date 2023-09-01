@@ -11,6 +11,6 @@ public class GoogleUserInfoResponse {
     String name;
 
     public SocialUser toSocialUser() {
-        return new SocialUser(Long.valueOf(id), email, name);
+        return new SocialUser(id, email, name);
     }
 }

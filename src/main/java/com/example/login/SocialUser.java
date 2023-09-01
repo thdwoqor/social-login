@@ -17,11 +17,11 @@ public class SocialUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long provideId;
+    private String provideId;
     private String email;
     private String nickname;
 
-    public SocialUser(final Long provideId, final String email, final String nickname) {
+    public SocialUser(final String provideId, final String email, final String nickname) {
         this.provideId = provideId;
         this.email = email;
         this.nickname = nickname;

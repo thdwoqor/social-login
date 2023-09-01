@@ -25,9 +25,9 @@ public class KakaoLoginServiceImpl {
 
     public KakaoAccessTokenResponse getAccessToken(String code) {
         KakaoAccessTokenRequest request = KakaoAccessTokenRequest.builder()
-                .client_id(clientId)
-                .redirect_uri(redirectUri)
-                .grant_type(grantType)
+                .clientId(clientId)
+                .redirectUri(redirectUri)
+                .grantType(grantType)
                 .code(code)
                 .build();
 

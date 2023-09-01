@@ -10,9 +10,10 @@ public interface GoogleTokenApi {
 
     @PostMapping(
             value = "/token",
-            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE
+            consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE
     )
     GoogleAccessTokenResponse getGoogleToken(
-            @RequestBody GoogleAccessTokenRequest request
+            GoogleAccessTokenRequest request
     );
 }

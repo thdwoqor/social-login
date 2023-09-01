@@ -1,15 +1,21 @@
 package com.example.login.auth.kakao;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder
 public class KakaoAccessTokenResponse {
-    String access_token;
-    String token_type;
-    String refresh_token;
-    Integer expires_in;
+
+    @JsonProperty("access_token")
+    String accessToken;
+    @JsonProperty("token_type")
+    String tokenType;
+    @JsonProperty("refresh_token")
+    String refreshToken;
+    @JsonProperty("expires_in")
+    Integer expiresIn;
     String scope;
-    Integer refresh_token_expires_in;
+    @JsonProperty("refresh_token_expires_in")
+    Integer refreshTokenExpiresIn;
 }

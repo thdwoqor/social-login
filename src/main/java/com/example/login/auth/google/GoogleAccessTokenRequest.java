@@ -1,14 +1,20 @@
 package com.example.login.auth.google;
 
+import feign.form.FormProperty;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
 @Builder
 public class GoogleAccessTokenRequest {
-    String client_id;
-    String client_secret;
+
+    @FormProperty("client_id")
+    String clientId;
+    @FormProperty("client_secret")
+    String clientSecret;
     String code;
-    String redirect_uri;
-    String grant_type;
+    @FormProperty("redirect_uri")
+    String redirectUri;
+    @FormProperty("grant_type")
+    String grantType;
 }

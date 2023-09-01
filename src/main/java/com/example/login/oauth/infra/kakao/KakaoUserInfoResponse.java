@@ -1,6 +1,6 @@
 package com.example.login.oauth.infra.kakao;
 
-import com.example.login.oauth.infra.OAuthUserInfo;
+import com.example.login.oauth.infra.dto.OAuthUserInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 

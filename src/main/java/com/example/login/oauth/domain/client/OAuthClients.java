@@ -1,6 +1,6 @@
 package com.example.login.oauth.domain.client;
 
-import com.example.login.oauth.infra.OAuthUserInfo;
+import com.example.login.oauth.infra.dto.OAuthUserInfo;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

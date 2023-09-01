@@ -1,37 +1,29 @@
 package com.example.login.oauth.infra.kakao;
 
-import com.example.login.oauth.infra.OAuthUserInfo;
 import com.example.login.oauth.domain.client.OAuthClient;
-import com.example.login.oauth.infra.Provider;
+import com.example.login.oauth.infra.dto.OAuthUserInfo;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
 public class KakaoOAuthClient implements OAuthClient {
 
-    @Value("${spring.auth.kakao.clientId}")
-    private String clientId;
-    @Value("${spring.auth.kakao.redirectUri}")
-    private String redirectUri;
-    @Value("${spring.auth.kakao.grantType}")
-    private String grantType;
-
+    private final KakaoOauthConfig kakaoOauthConfig;
     private final KakaoAccessTokenClient kakaoAccessTokenClient;
     private final KakaoUserInfoClient kakaoUserInfoClient;
 
     @Override
     public boolean supports(final String providerName) {
-        return Provider.KAKAO==Provider.from(providerName);
+        return kakaoOauthConfig.getProviderName().equals(providerName);
     }
 
     @Override
     public String getAccessToken(String code) {
         KakaoAccessTokenRequest request = KakaoAccessTokenRequest.builder()
-                .clientId(clientId)
-                .redirectUri(redirectUri)
-                .grantType(grantType)
+                .clientId(kakaoOauthConfig.getClientId())
+                .redirectUri(kakaoOauthConfig.getRedirectUri())
+                .grantType(kakaoOauthConfig.getGrantType())
                 .code(code)
                 .build();
 

@@ -17,12 +17,12 @@ public class OAuthUser {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String provideId;
+    private String oauthId;
     private String email;
     private String nickname;
 
-    public OAuthUser(final String provideId, final String email, final String nickname) {
-        this.provideId = provideId;
+    public OAuthUser(final String oauthId, final String email, final String nickname) {
+        this.oauthId = oauthId;
         this.email = email;
         this.nickname = nickname;
     }

@@ -1,4 +1,4 @@
-package com.example.login.oauth.infra;
+package com.example.login.oauth.infra.dto;
 
 import com.example.login.oauth.domain.OAuthUser;
 import lombok.AllArgsConstructor;
@@ -9,6 +9,7 @@ import lombok.Data;
 @Builder
 @AllArgsConstructor
 public class OAuthUserInfo {
+
     private String id;
     private String email;
     private String nickname;

@@ -1,6 +1,6 @@
 package com.example.login.oauth.infra.google;
 
-import com.example.login.oauth.infra.OAuthUserInfo;
+import com.example.login.oauth.infra.dto.OAuthUserInfo;
 import lombok.Data;
 
 @Data

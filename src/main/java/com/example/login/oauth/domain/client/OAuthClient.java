@@ -1,6 +1,6 @@
 package com.example.login.oauth.domain.client;
 
-import com.example.login.oauth.infra.OAuthUserInfo;
+import com.example.login.oauth.infra.dto.OAuthUserInfo;
 
 public interface OAuthClient {
 

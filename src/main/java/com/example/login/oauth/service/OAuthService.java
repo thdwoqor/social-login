@@ -17,12 +17,12 @@ public class OAuthService {
     public String doSocialLogin(String code, String provider) {
         OAuthUser OAuthUser = oauthClients.getUserInfo(code, provider).toOAuthUser();
 
-        Optional<OAuthUser> findSocialUser = OAuthUserRepository.findByProvideId(OAuthUser.getProvideId());
+        Optional<OAuthUser> findSocialUser = OAuthUserRepository.findByOauthId(OAuthUser.getOauthId());
 
         if (findSocialUser.isEmpty()) {
             OAuthUserRepository.save(OAuthUser);
         }
 
-        return OAuthUser.getProvideId();
+        return OAuthUser.getOauthId();
     }
 }

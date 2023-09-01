@@ -1,4 +1,4 @@
-package com.example.login.auth.service;
+package com.example.login.oauth.infra;
 
 public enum Provider {
 

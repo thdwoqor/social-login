@@ -1,16 +1,15 @@
-package com.example.login.auth.service;
+package com.example.login.oauth.infra.google;
 
-import com.example.login.SocialUser;
-import com.example.login.auth.google.GoogleAccessTokenRequest;
-import com.example.login.auth.google.GoogleAccessTokenApi;
-import com.example.login.auth.google.GoogleUserApi;
+import com.example.login.oauth.infra.OAuthUserInfo;
+import com.example.login.oauth.domain.client.OAuthClient;
+import com.example.login.oauth.infra.Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class GoogleAuthService implements SocialAuthService {
+public class GoogleOAuthClient implements OAuthClient {
 
     @Value("${spring.auth.google.clientId}")
     private String clientId;
@@ -21,8 +20,8 @@ public class GoogleAuthService implements SocialAuthService {
     @Value("${spring.auth.google.grantType}")
     private String grantType;
 
-    private final GoogleAccessTokenApi googleAccessTokenApi;
-    private final GoogleUserApi googleUserApi;
+    private final GoogleAccessTokenClient googleAccessTokenClient;
+    private final GoogleUserInfoClient googleUserInfoClient;
 
     @Override
     public boolean supports(final String providerName) {
@@ -38,11 +37,11 @@ public class GoogleAuthService implements SocialAuthService {
                 .grantType(grantType)
                 .code(code).build();
 
-        return googleAccessTokenApi.getGoogleToken(request).getAccessToken();
+        return googleAccessTokenClient.getGoogleToken(request).getAccessToken();
     }
 
     @Override
-    public SocialUser getUserInfo(String accessToken) {
-        return googleUserApi.getUserInfo(accessToken).toSocialUser();
+    public OAuthUserInfo getUserInfo(String accessToken) {
+        return googleUserInfoClient.getUserInfo(accessToken).toOAuthAttributes();
     }
 }

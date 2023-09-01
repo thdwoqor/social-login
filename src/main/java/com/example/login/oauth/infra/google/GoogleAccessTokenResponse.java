@@ -1,4 +1,4 @@
-package com.example.login.auth.google;
+package com.example.login.oauth.infra.google;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;

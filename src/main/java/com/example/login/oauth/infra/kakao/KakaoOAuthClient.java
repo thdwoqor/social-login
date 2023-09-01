@@ -1,16 +1,15 @@
-package com.example.login.auth.service;
+package com.example.login.oauth.infra.kakao;
 
-import com.example.login.SocialUser;
-import com.example.login.auth.kakao.KakaoAccessTokenRequest;
-import com.example.login.auth.kakao.KakaoAccessTokenApi;
-import com.example.login.auth.kakao.KakaoUserInfoApi;
+import com.example.login.oauth.infra.OAuthUserInfo;
+import com.example.login.oauth.domain.client.OAuthClient;
+import com.example.login.oauth.infra.Provider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class KakaoAuthService implements SocialAuthService {
+public class KakaoOAuthClient implements OAuthClient {
 
     @Value("${spring.auth.kakao.clientId}")
     private String clientId;
@@ -19,8 +18,8 @@ public class KakaoAuthService implements SocialAuthService {
     @Value("${spring.auth.kakao.grantType}")
     private String grantType;
 
-    private final KakaoAccessTokenApi kakaoAccessTokenApi;
-    private final KakaoUserInfoApi kakaoUserInfoApi;
+    private final KakaoAccessTokenClient kakaoAccessTokenClient;
+    private final KakaoUserInfoClient kakaoUserInfoClient;
 
     @Override
     public boolean supports(final String providerName) {
@@ -36,11 +35,11 @@ public class KakaoAuthService implements SocialAuthService {
                 .code(code)
                 .build();
 
-        return kakaoAccessTokenApi.getKakaoToken(request).getAccessToken();
+        return kakaoAccessTokenClient.getKakaoToken(request).getAccessToken();
     }
 
     @Override
-    public SocialUser getUserInfo(String accessToken) {
-        return kakaoUserInfoApi.getUserInfo("Bearer " + accessToken).toSocialUser();
+    public OAuthUserInfo getUserInfo(String accessToken) {
+        return kakaoUserInfoClient.getUserInfo("Bearer " + accessToken).toOAuthAttributes();
     }
 }

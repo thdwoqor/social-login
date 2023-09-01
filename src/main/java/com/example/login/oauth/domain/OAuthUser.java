@@ -1,4 +1,4 @@
-package com.example.login;
+package com.example.login.oauth.domain;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +12,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @NoArgsConstructor
-public class SocialUser {
+public class OAuthUser {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,7 +21,7 @@ public class SocialUser {
     private String email;
     private String nickname;
 
-    public SocialUser(final String provideId, final String email, final String nickname) {
+    public OAuthUser(final String provideId, final String email, final String nickname) {
         this.provideId = provideId;
         this.email = email;
         this.nickname = nickname;

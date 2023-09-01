@@ -1,4 +1,4 @@
-package com.example.login.auth.google;
+package com.example.login.oauth.infra.google;
 
 import feign.form.FormProperty;
 import lombok.Builder;

@@ -1,6 +1,6 @@
-package com.example.login.auth.kakao;
+package com.example.login.oauth.infra.kakao;
 
-import com.example.login.SocialUser;
+import com.example.login.oauth.infra.OAuthUserInfo;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -11,8 +11,8 @@ public class KakaoUserInfoResponse {
     @JsonProperty("kakao_account")
     private KakaoAccount kakaoAccount;
 
-    public SocialUser toSocialUser(){
-        return new SocialUser(id, kakaoAccount.email, kakaoAccount.profile.nickname);
+    public OAuthUserInfo toOAuthAttributes(){
+        return new OAuthUserInfo(id, kakaoAccount.email, kakaoAccount.profile.nickname);
     }
 
     @Data

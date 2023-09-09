@@ -1,6 +1,7 @@
 package com.example.login.oauth.controller;
 
 import com.example.login.oauth.domain.uri.AuthorizationUriProviders;
+import com.example.login.oauth.service.OAuthInfoDto;
 import com.example.login.oauth.service.OAuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -17,15 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class OAuthController {
 
-    private final OAuthService OAuthService;
+    private final OAuthService oauthService;
     private final AuthorizationUriProviders authorizationUriProviders;
 
     @GetMapping("/{providerName}/callback")
     public void login(
             @RequestParam("code") String code,
+            @RequestParam(value = "state", required = false) String state,
             @PathVariable("providerName") String providerName
     ) {
-        String id = OAuthService.doSocialLogin(code, providerName);
+        OAuthInfoDto oauthParam = OAuthInfoDto.builder()
+                .code(code)
+                .state(state)
+                .provider(providerName).build();
+        String id = oauthService.doSocialLogin(oauthParam);
         System.out.println(id);
     }
 

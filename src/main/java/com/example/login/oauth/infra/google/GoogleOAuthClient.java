@@ -2,6 +2,7 @@ package com.example.login.oauth.infra.google;
 
 import com.example.login.oauth.domain.client.OAuthClient;
 import com.example.login.oauth.infra.dto.OAuthUserInfo;
+import com.example.login.oauth.infra.dto.OAuthCodeStateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,13 +20,13 @@ public class GoogleOAuthClient implements OAuthClient {
     }
 
     @Override
-    public String getAccessToken(String code) {
+    public String getAccessToken(final OAuthCodeStateDTO oauthCodeStateDTO) {
         GoogleAccessTokenRequest request = GoogleAccessTokenRequest.builder()
                 .redirectUri(googleOAuthConfig.getRedirectUri())
                 .clientId(googleOAuthConfig.getClientId())
                 .clientSecret(googleOAuthConfig.getClientSecret())
                 .grantType(googleOAuthConfig.getGrantType())
-                .code(code).build();
+                .code(oauthCodeStateDTO.code()).build();
 
         return googleAccessTokenClient.getGoogleToken(request).getAccessToken();
     }

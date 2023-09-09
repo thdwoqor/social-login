@@ -2,6 +2,7 @@ package com.example.login.oauth.infra.kakao;
 
 import com.example.login.oauth.domain.client.OAuthClient;
 import com.example.login.oauth.infra.dto.OAuthUserInfo;
+import com.example.login.oauth.infra.dto.OAuthCodeStateDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -19,12 +20,12 @@ public class KakaoOAuthClient implements OAuthClient {
     }
 
     @Override
-    public String getAccessToken(String code) {
+    public String getAccessToken(final OAuthCodeStateDTO oauthCodeStateDTO) {
         KakaoAccessTokenRequest request = KakaoAccessTokenRequest.builder()
                 .clientId(kakaoOauthConfig.getClientId())
                 .redirectUri(kakaoOauthConfig.getRedirectUri())
                 .grantType(kakaoOauthConfig.getGrantType())
-                .code(code)
+                .code(oauthCodeStateDTO.code())
                 .build();
 
         return kakaoAccessTokenClient.getKakaoToken(request).getAccessToken();

@@ -12,17 +12,17 @@ import org.springframework.stereotype.Service;
 public class OAuthService {
 
     private final OAuthClients oauthClients;
-    private final OAuthUserRepository OAuthUserRepository;
+    private final OAuthUserRepository oauthUserRepository;
 
-    public String doSocialLogin(String code, String provider) {
-        OAuthUser OAuthUser = oauthClients.getUserInfo(code, provider).toOAuthUser();
+    public String doSocialLogin(final OAuthInfoDto oauthParam) {
+        OAuthUser oauthUser = oauthClients.getUserInfo(oauthParam).toOAuthUser();
 
-        Optional<OAuthUser> findSocialUser = OAuthUserRepository.findByOauthId(OAuthUser.getOauthId());
+        Optional<OAuthUser> findSocialUser = oauthUserRepository.findByOauthId(oauthUser.getOauthId());
 
         if (findSocialUser.isEmpty()) {
-            OAuthUserRepository.save(OAuthUser);
+            oauthUserRepository.save(oauthUser);
         }
 
-        return OAuthUser.getOauthId();
+        return oauthUser.getOauthId();
     }
 }

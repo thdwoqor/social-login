@@ -19,10 +19,8 @@ public class OAuthService {
 
         Optional<OAuthUser> findSocialUser = oauthUserRepository.findByOauthId(oauthUser.getOauthId());
 
-        if (findSocialUser.isEmpty()) {
-            oauthUserRepository.save(oauthUser);
-        }
+        OAuthUser oAuthUser = findSocialUser.orElseGet(() -> oauthUserRepository.save(oauthUser));
 
-        return oauthUser.getOauthId();
+        return oAuthUser.getOauthId();
     }
 }
